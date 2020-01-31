@@ -6,6 +6,9 @@ The Product data is stored in Redis. If the product service can't find the produ
 
 ![Diagram](./productservice.png)
 
+The Product Microservice could easily be integrated into a storefront such as Spartacus to improve overall scalability by offloading the requests for Products to the microservice. We can use the autoscaling features in Kubernetes to be able to dynamically respond to increases in traffic.
+
+
 ## Setup
 
 All ServiceInstances and ServiceBindings are created with yaml files however Redis instance needs to provisioned before the ServiceBinding and ServiceBindingUsage is created.

@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: productservice
+    version: v1
+  name: productservice-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: productservice 
+     version: v1
+  template:
+    metadata:
+      labels:
+        app: productservice
+        version: v1
+      annotations:
+    spec:
+      containers:
+      - name: productservice
+        image: docker.io/brendandobbs/productservice
+        imagePullPolicy: Always
+        resources:
+           limits:
+             memory: 250Mi
+           requests:
+             cpu: 200m
+             memory: 250Mi
+        env:
+        - name: version
+          value: v1
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 2
+          periodSeconds: 3
+          failureThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 20
+          timeoutSeconds: 2
+          periodSeconds: 8
+          failureThreshold: 1

@@ -1,0 +1,17 @@
+apiVersion: skaffold/v2alpha2 
+kind: Config
+# Enforce SKaffold to use Jib
+build:
+  local:
+    push: true
+# Generated artifact
+  artifacts:
+    - image: docker.io/brendandobbs/productservice
+# Use jibn
+      jib: {} 
+      
+# Execute deployment.yml
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/*.yaml
